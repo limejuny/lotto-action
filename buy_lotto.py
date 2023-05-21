@@ -7,7 +7,7 @@ USER_ID = os.environ.get('USER_ID')
 USER_PW = os.environ.get('USER_PW')
 
 # 구매 개수를 설정
-COUNT = 4
+COUNT = 5
 
 
 def run(playwright: Playwright) -> None:

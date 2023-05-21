@@ -2,7 +2,7 @@ name: Lotto Buy Bot (로또 구매봇)
 
 on:
   schedule:
-    - cron: '0 4 * * 0' # UTC 기준
+    - cron: '0 0 * * 0' # UTC 기준, 매주 일요일 09:00 KST
 
 jobs:
   build:
