@@ -1,0 +1,33 @@
+name: Lotto Result Bot (로또 결과봇)
+
+on:
+  schedule:
+    - cron: '0 13 * * 6' # UTC 기준, 매주 토요일 10PM
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        python-version: [ "3.10" ]
+
+    steps:
+    - name: 🚀 [INIT] Clone repository
+      uses: actions/checkout@v3
+
+    - name: 🚀 [SET] Setup python ${{ matrix.python-version }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: 🚀 [SET] Install python package
+      run: |
+        pip install -r requirements.txt
+        python -m playwright install --with-deps
+
+    - name: 🚀 [RUN] Send Lotto Result
+      run: python lotto_result.py
+      env:
+        USER_ID: ${{ secrets.USER_ID }}
+        USER_PW: ${{ secrets.USER_PW }}
