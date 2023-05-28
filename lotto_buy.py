@@ -72,6 +72,10 @@ with sync_playwright() as playwright:
     # Click input[name="closeLayer"]
     page.click("input[name=\"closeLayer\"]")
     # assert page.url == "https://el.dhlottery.co.kr/game/TotalGame.jsp?LottoId=LO40"
+    page.close()
+
+    # Open new page
+    page = browser.new_page()
 
     # 잔액 조회
     page.goto("https://dhlottery.co.kr/userSsl.do?method=myPage")
@@ -95,8 +99,28 @@ with sync_playwright() as playwright:
             requests.post(
                 f"https://discord.com/api/webhooks/{DISCORD_WEBHOOK_ID}/{DISCORD_WEBHOOK_TOKEN}",
                 json=data)
+        else:
+            print(f"""
+            잔액 조회 실패
+            =====================================
+            {balance}
+            =====================================
+            {table}
+            =====================================
+            {date}
+            =====================================
+            {rnd}
+            =====================================
+            """)
     else:
-        print("None")
+        print(f"""
+        잔액 조회 실패
+        =====================================
+        {balance}
+        =====================================
+        {table}
+        =====================================
+        """)
 
     # ---------------------
     browser.close()
