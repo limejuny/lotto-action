@@ -2,7 +2,7 @@ name: Lotto Result Bot (로또 결과봇)
 
 on:
   schedule:
-    - cron: '55 13 * * 6' # UTC 기준, 매주 토요일 10PM
+    - cron: '0 13 * * 6' # UTC 기준, 매주 토요일 10PM
 
 jobs:
   build:
