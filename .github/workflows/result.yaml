@@ -2,7 +2,7 @@ name: Lotto Result Bot (로또 결과봇)
 
 on:
   schedule:
-    - cron: '0 13 * * 6' # UTC 기준, 매주 토요일 10PM
+    - cron: '55 13 * * 6' # UTC 기준, 매주 토요일 10PM
 
 jobs:
   build:
@@ -31,3 +31,5 @@ jobs:
       env:
         USER_ID: ${{ secrets.USER_ID }}
         USER_PW: ${{ secrets.USER_PW }}
+        DISCORD_WEBHOOK_ID: ${{ secrets.DISCORD_WEBHOOK_ID }}
+        DISCORD_WEBHOOK_TOKEN: ${{ secrets.DISCORD_WEBHOOK_TOKEN }}
