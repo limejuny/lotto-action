@@ -81,7 +81,7 @@ with sync_playwright() as playwright:
     ############################
     ############################
 
-    browser = p.chromium.launch(headless=True)
+    browser = playwright.chromium.launch(headless=True)
     page = browser.new_page()
 
     # Go to https://dhlottery.co.kr/user.do?method=login
