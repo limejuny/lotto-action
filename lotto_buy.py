@@ -73,9 +73,39 @@ with sync_playwright() as playwright:
     page.click("input[name=\"closeLayer\"]")
     # assert page.url == "https://el.dhlottery.co.kr/game/TotalGame.jsp?LottoId=LO40"
     page.close()
+    browser.close()
 
-    # Open new page
+    ############################
+    ############################
+    # 구매 후 새 브라우저 오픈 #
+    ############################
+    ############################
+
+    browser = p.chromium.launch(headless=True)
     page = browser.new_page()
+
+    # Go to https://dhlottery.co.kr/user.do?method=login
+    page.goto("https://dhlottery.co.kr/user.do?method=login")
+
+    # Click [placeholder="아이디"]
+    page.click("[placeholder=\"아이디\"]")
+
+    # Fill [placeholder="아이디"]
+    page.fill("[placeholder=\"아이디\"]", USER_ID)
+
+    # Press Tab
+    page.press("[placeholder=\"아이디\"]", "Tab")
+
+    # Fill [placeholder="비밀번호"]
+    page.fill("[placeholder=\"비밀번호\"]", USER_PW)
+
+    # Press Tab
+    page.press("[placeholder=\"비밀번호\"]", "Tab")
+
+    # Press Enter
+    # with page.expect_navigation(url="https://ol.dhlottery.co.kr/olotto/game/game645.do"):
+    with page.expect_navigation():
+        page.press("form[name=\"jform\"] >> text=로그인", "Enter")
 
     # 잔액 조회
     page.goto("https://dhlottery.co.kr/userSsl.do?method=myPage")
