@@ -2,7 +2,7 @@ name: Lotto Buy Bot (로또 구매봇)
 
 on:
   schedule:
-    - cron: '0 0 * * 0' # UTC 기준, 매주 일요일 09:00 KST
+    - cron: '10 3 * * 0' # UTC 기준, 매주 일요일 09:00 KST
 
 jobs:
   build:
@@ -26,8 +26,16 @@ jobs:
         pip install -r requirements.txt
         python -m playwright install --with-deps
 
-    - name: 🚀 [RUN] Buy Lotto
-      run: python lotto_buy.py
+    # - name: 🚀 [RUN] Buy Lotto
+    #   run: python lotto_buy.py
+    #   env:
+    #     USER_ID: ${{ secrets.USER_ID }}
+    #     USER_PW: ${{ secrets.USER_PW }}
+    #     DISCORD_WEBHOOK_ID: ${{ secrets.DISCORD_WEBHOOK_ID }}
+    #     DISCORD_WEBHOOK_TOKEN: ${{ secrets.DISCORD_WEBHOOK_TOKEN }}
+
+    - name: 🚀 [RUN] Send Lotto Result
+      run: python lotto_buy_result.py
       env:
         USER_ID: ${{ secrets.USER_ID }}
         USER_PW: ${{ secrets.USER_PW }}
