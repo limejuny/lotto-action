@@ -48,7 +48,11 @@ with sync_playwright() as p:
         date = table.query_selector("td:nth-child(1)")
         rnd = table.query_selector("td:nth-child(2)")
         result = table.query_selector("td:nth-child(6)")
-        if date and rnd and result:
+        reward = table.query_selector("td:nth-child(7)")
+        win = ""
+        if date and rnd and result and reward:
+            if result.inner_text() == "당첨":
+                win = f"\n당첨금: {reward.inner_text()}원"
             data = {
                 "username":
                     f"로또6/45",
@@ -56,7 +60,7 @@ with sync_playwright() as p:
                     "title":
                         f"{rnd.inner_text()}회차 결과",
                     "description":
-                        f"구매일: {date.inner_text()}\n당첨결과: {result.inner_text()}\n잔액: {balance.inner_text()}원"
+                        f"구매일: {date.inner_text()}\n당첨결과: {result.inner_text()}\n예치금: {balance.inner_text()}원{win}"
                 }]
             }
             requests.post(
