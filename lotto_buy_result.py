@@ -11,6 +11,8 @@ DISCORD_WEBHOOK_ID = os.environ.get('DISCORD_WEBHOOK_ID')
 DISCORD_WEBHOOK_TOKEN = os.environ.get('DISCORD_WEBHOOK_TOKEN')
 
 with sync_playwright() as p:
+    time.sleep(10)
+
     browser = p.chromium.launch(headless=True)
     page = browser.new_page()
 
@@ -36,8 +38,6 @@ with sync_playwright() as p:
     # with page.expect_navigation(url="https://ol.dhlottery.co.kr/olotto/game/game645.do"):
     with page.expect_navigation():
         page.press("form[name=\"jform\"] >> text=로그인", "Enter")
-
-    # time.sleep(5)
 
     page.goto("https://dhlottery.co.kr/userSsl.do?method=myPage")
 
