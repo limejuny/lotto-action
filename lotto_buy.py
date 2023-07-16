@@ -18,9 +18,10 @@ with sync_playwright() as playwright:
 
     # chrome 브라우저를 실행
     browser = playwright.chromium.launch(headless=True)
+    context = browser.new_context()
 
     # Open new page
-    page = browser.new_page()
+    page = context.new_page()
 
     # Go to https://dhlottery.co.kr/user.do?method=login
     page.goto("https://dhlottery.co.kr/user.do?method=login")
@@ -73,4 +74,53 @@ with sync_playwright() as playwright:
     page.click("input[name=\"closeLayer\"]")
     # assert page.url == "https://el.dhlottery.co.kr/game/TotalGame.jsp?LottoId=LO40"
     page.close()
+
+    page = context.new_page()
+    page.goto("https://dhlottery.co.kr/userSsl.do?method=myPage")
+
+    # 잔액 조회
+    balance = page.query_selector("p.total_new > strong")
+    table = page.query_selector(
+        "table.tbl_data.tbl_data_col > tbody > tr:nth-child(1)")
+    if balance and table:
+        date = table.query_selector("td:nth-child(1)")
+        rnd = table.query_selector("td:nth-child(2)")
+        if date and rnd:
+            data = {
+                "username":
+                    f"로또6/45",
+                "embeds": [{
+                    "title":
+                        f"{rnd.inner_text()}회차 구매",
+                    "description":
+                        f"구매일: {date.inner_text()}\n잔액: {balance.inner_text()}원"
+                }]
+            }
+            requests.post(
+                f"https://discord.com/api/webhooks/{DISCORD_WEBHOOK_ID}/{DISCORD_WEBHOOK_TOKEN}",
+                json=data)
+        else:
+            print(f"""
+            잔액 조회 실패
+            =====================================
+            {balance}
+            =====================================
+            {table}
+            =====================================
+            {date}
+            =====================================
+            {rnd}
+            =====================================
+            """)
+    else:
+        print(f"""
+        잔액 조회 실패
+        =====================================
+        {balance}
+        =====================================
+        {table}
+        =====================================
+        """)
+
+    context.close()
     browser.close()
