@@ -52,7 +52,7 @@ with sync_playwright() as p:
         win = ""
         if date and rnd and result and reward:
             if result.inner_text() == "당첨":
-                win = f"\n당첨금: {reward.inner_text()}원"
+                win = f"\n당첨금: {reward.inner_text()}"
             data = {
                 "username":
                     f"로또6/45",
